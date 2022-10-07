@@ -1,5 +1,5 @@
 #!/bin/bash
-apt-get install proftpd*; apt-get install filezilla
+apt-get install proftpd*
 
 cd /etc/proftpd
                     #modif fichier proftpd.conf
@@ -213,7 +213,7 @@ Include /etc/proftpd/tls.conf
 # Eventually create file patterns like this: /etc/proftpd/conf.d/*.conf
 # 
 Include /etc/proftpd/conf.d/' > /etc/proftpd/proftpd.conf
-
+cd /etc/proftpd/
 #modif fichier tls.conf
 echo '#
 # Proftpd sample configuration for FTPS connections.
@@ -275,15 +275,14 @@ TLSRequired                             on
 TLSRenegotiate                          required off
 </IfModule> ' > /etc/proftpd/tls.conf
 
-mkdir ssl key 
-openssl req -new -x509 -days 365 -nodes -out
-/etc/proftpd/ssl/proftpd.cert.pem -keyout /etc/proftpd/ssl/proftpd.key.pem
+mkdir ssl
+openssl req -new -x509 -days 365 -nodes -out /etc/proftpd/ssl/proftpd.cert.pem -keyout /etc/proftpd/ssl/proftpd.key.pem
 
 chmod 0600 /etc/proftpd/ssl/proftpd.cert.pem 
 chmod 0640 /etc/proftpd/ssl/proftpd.key.pem
 
                     #modif fichier modules.conf
-
+cd /etc/proftpd/
 echo '#
 # This file is used to manage DSO modules and features.
 #
@@ -407,3 +406,6 @@ LoadModule mod_readme.c
 LoadModule mod_ifsession.c ' > /etc/proftpd/modules.conf
 
 systemectl restart proftpd 
+apt update
+apt upgrade
+apt-get install filezilla
